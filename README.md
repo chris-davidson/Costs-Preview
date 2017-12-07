@@ -12,3 +12,7 @@ From Package Manager Console
 1. Enable-Migrations 
 2. Add-Migration Initialize 
 3. Update-Database
+
+Make sure Costs.Preview.UI is the startup project.
+
+Make sure Nuget installs EntityFramework to Costs.Preveiw.Business.LogicTests, Costs.Preview.Data and Costs.Preview.UI.
