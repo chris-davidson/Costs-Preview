@@ -1,0 +1,195 @@
+﻿@model Costs.Preview.Models.EmployeeCostsDTO
+
+<section id="CostsOverview">
+	<div class="page-header">
+		<h1>Costs Overview</h1>
+	</div>
+
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-8">
+			<div class="alert alert-success" role="alert">
+				<strong>Total Costs</strong>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="alert alert-success" role="alert">
+				<strong>$<label id="total-costs">@Model.TotalCosts</label></strong>
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-7">
+			<div class="alert alert-info" role="alert">
+				<strong>Salary Costs</strong>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="alert alert-info" role="alert">
+				<strong>$<label id="salary-costs">@Model.TotalCostsAnnualSalaries</label></strong>
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-7">
+			<div class="alert alert-warning" role="alert">
+				<strong>Benefits Costs</strong>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="alert alert-warning" role="alert">
+				<strong>$<label id="benefits-costs">@Model.TotalCostsAnnualBenefits</label></strong>
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-md-11">
+							Total Employees
+						</div>
+						<div class="col-md-1">
+							<span class="badge" id="total-employees">@Model.TotalEmployees</span>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-5">
+							Total Cost Employees Benefits
+						</div>
+						<div class="col-md-1">
+							<span class="badge" id="total-cost-employees-benefits">@Model.TotalCostsAnnualBenefitsEmployees</span>
+						</div>
+						<div class="col-md-5">
+							Total Discounts Employees Benefits
+						</div>
+						<div class="col-md-1">
+							<span class="badge" id="total-discounts-employees-benefits">@Model.TotalDiscountsEmployees</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-md-11">
+							Total Dependents
+						</div>
+						<div class="col-md-1">
+							<span class="badge" id="total-dependents">@Model.TotalDependents</span>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-5">
+							Total Cost Dependents Benefits
+						</div>
+						<div class="col-md-1">
+							<span class="badge" id="total-cost-dependents-benefits">@Model.TotalCostsAnnualBenefitsDependents</span>
+						</div>
+						<div class="col-md-5">
+							Total Discounts Dependents Benefits
+						</div>
+						<div class="col-md-1">
+							<span class="badge" id="total-discounts-dependents-benefits">@Model.TotalDiscountsDependents</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+
+
+
+</section>
+
+<section id="Employees" class="hide">
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-8">
+				<h1>Employees</h1>
+			</div>
+			<div class="col-md-4">
+				<h1>
+					<button id="open-add-employee-dialog" class="btn btn-success" href="#">Add Employee</button>
+				</h1>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6" name="employee-list">
+			@{
+				var initClassNoEmpl = Model.TotalEmployees > 0 ? "hide" : "";
+			}
+			<div class="alert alert-danger @initClassNoEmpl" id="no-employee-alert">No employees</div>
+			<div class="list-group">
+				@foreach (var employee in Model.Employees)
+				{
+					<a class="list-group-item" data-id="@employee.Id" href="javascript: void(0)">@employee.FirstName @employee.LastName</a>
+				}
+			</div>
+		</div>
+		<div class="col-md-6" name="employee-detail">
+			<form id="add-employee-form" class="hide" data-id>
+				<div class="form-group">
+					<label for="employee-first-name">First Name</label>
+					<input type="text" class="form-control" id="employee-first-name" placeholder="First">
+				</div>
+				<div class="form-group">
+					<label for="employee-last-name">Last Name</label>
+					<input type="text" class="form-control" id="employee-last-name" placeholder="Last">
+				</div>
+				<div class="form-group">
+					<h3 class="page-header">Dependents</h3>
+					<div class="form-inline" name="dependent-detail">
+
+					</div>
+
+				</div>
+				<div class="form-group">
+					<a class="btn btn-info btn-group-sm" id="add-dependent">Add Dependent</a>
+				</div>
+				<button id="add-employee" type="button" class="btn btn-success">Submit</button>
+				<button id="del-employee" type="button" class="btn btn-warning">Remove</button>
+				<button id="cancel-add" type="button" class="btn btn-default">Cancel</button>
+			</form>
+		</div>
+	</div>
+</section>
+
+<div id="dependent-form-template" class="hide">
+	<div class="row">
+		<div class="col-sm-5">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="First Name">
+			</div>
+		</div>
+		<div class="col-sm-5">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Last Name">
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<span class="input-group-btn">
+				<button class="btn btn-warning" name="remove-dependent" type="button">Remove</button>
+			</span>
+		</div>
+	</div>
+</div>
+
+
